@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2020-08-03T13:15:06.000Z</updated>
+  <updated>2021-02-22T08:01:00.391Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>flutter-登录(accesstoken和refreshtoken)</title>
+    <link href="https://www.mryan.cool/2021/02/22/flutter-%E7%99%BB%E5%BD%95(accesstoken%E5%92%8Crefreshtoken)/"/>
+    <id>https://www.mryan.cool/2021/02/22/flutter-%E7%99%BB%E5%BD%95(accesstoken%E5%92%8Crefreshtoken)/</id>
+    <published>2021-02-22T07:30:44.000Z</published>
+    <updated>2021-02-22T08:01:00.391Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="accesstoken和refreshtoken"><a href="#accesstoken和refreshtoken" class="headerlink" title="accesstoken和refreshtoken"></a>accesstoken和refreshtoken</h1><p>在实现flutter的拦截登录的时候遇到点困难，记得客户端和服务端的传递依靠token，于是百度了一下</p><h2 id="1-token化的协议过程"><a href="#1-token化的协议过程" class="headerlink" title="1:token化的协议过程"></a>1:token化的协议过程</h2><p><img src="https://img-blog.csdn.net/20180629135828686?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMzNjAwMDE5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p><h1 id="2-accesstoken、refreshtoken"><a href="#2-accesstoken、refreshtoken" class="headerlink" title="2:accesstoken、refreshtoken"></a>2:accesstoken、refreshtoken</h1><p>access token 是在 Oauth2.0 协议中，客户端访问资源服务器的令牌（其实就是一段全局唯一的随机字符串）。拥有这个令牌代表着得到用户的授权。它里面包含哪些信息呢？答案是：</p><p>　　<strong>哪个用户 在什么时候 授权给哪个客户端 去做什么事情</strong></p><p>网上找到一个Oauth2.0的文章：<a href="https://www.cnblogs.com/blowing00/p/4521135.html">简单介绍 Oauth2.0 原理</a></p><p>但是这个授权可以被泄露，所以这个授权有一定有效期。但是如果每次过期后都需要重新授权，会使得用户体验感下降，于是引入了refreshtoken。refresh token 的作用是用来刷新 access token。鉴权服务器提供一个刷新接口，例如：</p><blockquote><p>POST /refresh</p><p>　　　参数： refreshtoken</p><p>　　　返回：新的 access token</p></blockquote><p>传入 refresh token，鉴权服务器验证通过后，返回一个新的 access token。为了安全，Oauth2.0 引入了两个措施：</p><p>　　1，Oauth2.0 要求，refresh token 一定是保存在服务器上（应用方的服务器）的，而绝不能存放在狭义的客户端（例如移动 app、PC端软件、浏览器） 上。调用 refresh 接口的时候，一定是从服务器到服务器的访问；</p><p>　　2，Oauth2.0 引入了 client_id 、client_secret 机制。即每一个应用都会被分配到一个 client_id 和一个对应的 client_secret。应用必须把 client_secret 妥善保管在服务器上，决不能泄露。刷新 access token 时，需要验证这个 client_secret。</p><p>　　于是，实际上的刷新接口应该是类似这样的：</p><blockquote><p>POST /refresh</p><p>　　　参数：</p><p>　　　　refresh token</p><p>　　　　client_id</p><p>　　　　signatrue 签名，由 sha256(client_id + refresh_token + client_secret) 得到</p><p>　　　返回：新的 access token</p></blockquote><p>于是我们可以得知，当access_token，APP使用refresh_token来刷新token，但如果refresh_token，就需要用户重新登录。</p><h3 id="登录逻辑"><a href="#登录逻辑" class="headerlink" title="登录逻辑"></a>登录逻辑</h3><h4 id="添加token"><a href="#添加token" class="headerlink" title="添加token"></a>添加token</h4><ul><li><strong>登录成功，保存token到本地</strong>，转跳到首页，移除其他栈，防止返回回到登录页面</li></ul><h4 id="移除token"><a href="#移除token" class="headerlink" title="移除token"></a>移除token</h4><ul><li><strong>未登录</strong> 路由拦截找不到token，转跳到登录页面或者弹窗</li><li><strong>token过期</strong>，后台返回token，api拦截，移除token，转跳到登录页面</li><li><strong>退出登录</strong>移除token，转跳到登录页面，移除前面所有路由栈</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;accesstoken和refreshtoken&quot;&gt;&lt;a href=&quot;#accesstoken和refreshtoken&quot; class=&quot;headerlink&quot; title=&quot;accesstoken和refreshtoken&quot;&gt;&lt;/a&gt;accesstoken和re</summary>
+      
+    
+    
+    
+    <category term="flutter" scheme="https://www.mryan.cool/categories/flutter/"/>
+    
+    
+    <category term="flutter" scheme="https://www.mryan.cool/tags/flutter/"/>
+    
+  </entry>
   
   <entry>
     <title>计算两个字符串的距离</title>
@@ -531,34 +555,6 @@
     <category term="python" scheme="https://www.mryan.cool/tags/python/"/>
     
     <category term="数据分析" scheme="https://www.mryan.cool/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第七章链接</title>
-    <link href="https://www.mryan.cool/2020/05/25/%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/"/>
-    <id>https://www.mryan.cool/2020/05/25/%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/</id>
-    <published>2020-05-25T00:53:51.000Z</published>
-    <updated>2020-05-25T03:31:32.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="链-接"><a href="#链-接" class="headerlink" title="链 接"></a>链 接</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">链接时将各种代码和数据片段收集并组合成为单一文件的过程，这个文件被加载（复制）到内存执行。</span><br><span class="line">链接可以执行于编译时；也可以执行于加载时；甚至执行于运行时。</span><br></pre></td></tr></table></figure><p><img src="https://s1.ax1x.com/2020/05/25/tpto9J.png"></p><p><img src="https://s1.ax1x.com/2020/05/25/tpNU29.png"></p><h2 id="为什么用链接器"><a href="#为什么用链接器" class="headerlink" title="为什么用链接器"></a>为什么用链接器</h2><pre><code> 1. 模块化      1. 程序可以编写为一个较小的源文件的集合，而不是整体巨大的一团      2. 可以构建公共函数库2. 效率        1. 时间：分开编译        1. 更改一个源文件，编译，然后重新链接        2. 不需要重新编译其他源文件            2. 空间：库        1. 可以将公共函数聚合为单个文件        2. 可执行文件和运行内存映像只包含他们实际使用的函数的代码</code></pre><h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h2><p>连接器的两个主要任务</p><ol><li><p><strong>符号解析</strong>：目标文件定义和引用符号，每个符号对应于一个函数，一个全局变量或一个静态变量。符号解析的目的时将每个符号引用和一个符号定义关联起来。</p><ol start="2"><li><strong>重定位</strong>：编译器和汇编器生成从地址0开始的代码和书局街。</li></ol></li></ol><p>PS：目标文件存粹是字节块的集合。</p><h2 id="目标文件"><a href="#目标文件" class="headerlink" title="目标文件"></a>目标文件</h2><p>​    目标文件有三种形式</p><pre><code> 1. 可重定位目标文件(.o文件)：      1. 包含与其他可重定位目标文件相结合的代码和数据，以形成可执行的目标文件。      2. 每一个.o文件都是由.c文件生成 2. 可执行目标文件(a.out文件)      1. 包含可以直接复制到内存并执行的代码和数据 3. 共享目标文件（.so文件）      1. 特殊类型的可重定位目标文件，在加载时或运行时，可以被动态加载到内存被链接      2. 在windows被称为动态链接库。.DLL</code></pre><p>编译器和汇编器生成可重定位目标文件。链接器生成可执行目标文件。</p><h2 id="可重定位目标文件"><a href="#可重定位目标文件" class="headerlink" title="可重定位目标文件"></a>可重定位目标文件</h2><ul><li><p>目标文件的标准二进制格式</p></li><li><p>一个统一的格式：</p><ul><li><ol><li>可重定位目标文件(.o)</li><li>可执行目标文件(a.out)</li><li>共享目标文件(.so)</li></ol></li></ul></li><li><p>通用名字：ELF二进制文件</p><p>​                                                            </p><h3 id="ELF目标文件格式"><a href="#ELF目标文件格式" class="headerlink" title="ELF目标文件格式"></a>ELF目标文件格式</h3><p><img src="C:\Users\Administrator.DESKTOP-4CPBO21\AppData\Roaming\Typora\typora-user-images\image-20200525094036333.png"></p><p><img src="https://s1.ax1x.com/2020/05/25/tpwpIf.png"></p></li></ul><h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h3><p><img src="https://s1.ax1x.com/2020/05/25/tpdugH.png"></p><p><img src="https://s1.ax1x.com/2020/05/25/tpdKvd.png"></p><h3 id="可执行目标文件格式"><a href="#可执行目标文件格式" class="headerlink" title="可执行目标文件格式"></a>可执行目标文件格式</h3><p><img src="https://s1.ax1x.com/2020/05/25/tpwEss.png"></p><h2 id="符号和符号表"><a href="#符号和符号表" class="headerlink" title="符号和符号表"></a>符号和符号表</h2><p>每个重定位目标模块m都有一个符号表，包含m定义和引用的符号的信息</p><p>三种符号</p><ol><li><p><strong>全局符号</strong>：由模块m定义，可以被模块引用的符号</p><ol start="2"><li><strong>外部符号</strong>：由模块m引用的全局符号，但由其他模块定义</li><li><strong>本地/局部符号</strong>：由模块m定义和仅由m唯一引用的符号</li></ol></li></ol><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C中的static属性隐藏模块内部的变量和函数声明，如同Java和C++中使用public和private声明一样。在C中，源文件扮演模块的角色。任何带有static属性声明的全局变量或者函数都是模块私有的。任何不带static属性声明的全局变量和函数都是公共的</span><br></pre></td></tr></table></figure><h2 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h2><p>链接器解析符号引用的方法是将每个引用和它输入的可重定位目标文件的符号表中的一个确定的符号定义关联起来。</p><h3 id="链接器如何解析多重定义的全局符号"><a href="#链接器如何解析多重定义的全局符号" class="headerlink" title="链接器如何解析多重定义的全局符号"></a>链接器如何解析多重定义的全局符号</h3><p>程序符号的分类</p><ol><li><p>强符号：函数和初始化全局变量</p><ol start="2"><li>弱符号：未初始化的全局变量</li></ol></li></ol><p>规则：</p><ol><li><p>不允许有多个同名的强符号</p><ol start="2"><li>如果有一个强符号和多个弱符号同名，选择强符号</li><li>有多个弱符号同名，任意选择一个</li></ol></li></ol><h3 id="与静态库链接"><a href="#与静态库链接" class="headerlink" title="与静态库链接"></a>与静态库链接</h3><ul><li><strong>静态库</strong>（.a存档文件）<ul><li>将相关的可重定向目标文件连接到一个带有索引的单个文件中（叫做存档文件）</li><li>增强连接器，使它尝试通过查找一个或多个存档文件中的符号来解决未解析的外部引用</li><li>如果一个存档成员文件解析了符号引用，就把它链接到可执行文件</li></ul></li></ul><p><strong>缺点</strong>：</p><ol><li><p>系统中每个可执行文件都包含着一份标准函数集合的完全副本，对磁盘是很大的浪费</p><ol start="2"><li>每个运行的程序都将这些函数符本放在内存，对内存的浪费</li><li>对任何标准函数的任何改变，都要求开发人员重新编译整个源文件。</li></ol></li></ol><h2 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h2><p><strong>两步</strong>：    </p><pre><code> 1. 重定位节和符号定义：链接器将所有相同类型的节合并为同一类型的新的聚合姐      1. 完成后，程序中每条指令和全局变量都有唯一的运行时内存地址。 2. 重定位节中的符号引用：修改代码节和数据节对每个符号的引用，使得它们指向正确的运行时地址。</code></pre><p><strong>例如</strong>：来自所有输入模块的.data节都被全部合并成一个节。这个节成为输出的可执行目标文件的.data。</p><p><img src="https://s1.ax1x.com/2020/05/25/tpgOts.png"></p><h2 id="动态链接共享库"><a href="#动态链接共享库" class="headerlink" title="动态链接共享库"></a>动态链接共享库</h2><p>共享库是致力于解决静态库缺陷的一个现代创新产物。共享库是一个目标模块，在运行或加载时，可以加载到任意的内存地址，并和一个在内存中的程序链接起来。</p><p><img src="https://s1.ax1x.com/2020/05/25/tp7sdx.png"></p><h2 id="库打桩机制"><a href="#库打桩机制" class="headerlink" title="库打桩机制"></a>库打桩机制</h2><p>强大的链接技术——允许程序员拦截对任意函数的调用</p><p><strong>基本思想</strong>：给定一个需要打桩的目标函数，创建一个包装函数，原型与目标函数完全一样。使用某种特殊的打桩机制，就可以欺骗系统调用包装函数而不是目标函数。</p><p>包装函数通常会执行它的逻辑，然后调用目标函数，再将目标函数的返回值传递给调用者。</p><p><img src="https://s1.ax1x.com/2020/05/25/tp7VdP.png"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;链-接&quot;&gt;&lt;a href=&quot;#链-接&quot; class=&quot;headerlink&quot; title=&quot;链 接&quot;&gt;&lt;/a&gt;链 接&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;spa</summary>
-      
-    
-    
-    
-    <category term="CSAPP笔记" scheme="https://www.mryan.cool/categories/CSAPP%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="CSAPP" scheme="https://www.mryan.cool/tags/CSAPP/"/>
-    
-    <category term="计组" scheme="https://www.mryan.cool/tags/%E8%AE%A1%E7%BB%84/"/>
-    
-    <category term="链接" scheme="https://www.mryan.cool/tags/%E9%93%BE%E6%8E%A5/"/>
     
   </entry>
   
