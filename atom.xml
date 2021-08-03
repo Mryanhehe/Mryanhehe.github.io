@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2021-07-06T05:20:44.827Z</updated>
+  <updated>2021-08-03T11:02:53.917Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -17,30 +17,29 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>第一哲学沉思集——第三个沉思</title>
-    <link href="https://www.mryan.cool/2021/07/06/%E7%AC%AC%E4%B8%89%E4%B8%AA%E6%B2%89%E6%80%9D/"/>
-    <id>https://www.mryan.cool/2021/07/06/%E7%AC%AC%E4%B8%89%E4%B8%AA%E6%B2%89%E6%80%9D/</id>
-    <published>2021-07-06T04:13:36.000Z</published>
-    <updated>2021-07-06T05:20:44.827Z</updated>
+    <title>Java项目中第三方库的使用、更新和风险的实证研究</title>
+    <link href="https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/"/>
+    <id>https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/</id>
+    <published>2021-08-03T10:56:32.000Z</published>
+    <updated>2021-08-03T11:02:53.917Z</updated>
     
-    <content type="html"><![CDATA[<p>在上一沉思，笛卡尔已经找到了他哲学上的“阿基米德点”——我在，知道了我就是一个思维东西。并且还知道人最可靠认识物体的方式是通过精神。</p><p>接下来笛卡尔要寻找是否在我心里还有没有感觉的其他认识。</p><h2 id="准则：凡是我们领会得十分清楚、十分分明的东西都是真实的"><a href="#准则：凡是我们领会得十分清楚、十分分明的东西都是真实的" class="headerlink" title="准则：凡是我们领会得十分清楚、十分分明的东西都是真实的"></a>准则：凡是我们领会得十分清楚、十分分明的东西都是真实的</h2><p>推论：我是清楚的、明白的直觉。如果我完全清楚，认识的东西是假的，那么这个直觉都不足以让我知道“我”是真，因此我领会十分清楚、十分分明的东西是真实的。</p><h2 id="最重要的结论：原因一定比结果有更多的实在性。"><a href="#最重要的结论：原因一定比结果有更多的实在性。" class="headerlink" title="最重要的结论：原因一定比结果有更多的实在性。"></a><strong>最重要的结论</strong>：原因一定比结果有更多的实在性。</h2><p>结论：</p><ol><li>不可能无中生有，不完满来自于完满</li></ol>]]></content>
+    <content type="html"><![CDATA[<p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/1Mo3gi.jpg"></p><p><img src="https://www.pexels.com/zh-cn/photo/8594503/"></p><p><img src="https://www.pexels.com/zh-cn/photo/8594503/"></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;在上一沉思，笛卡尔已经找到了他哲学上的“阿基米德点”——我在，知道了我就是一个思维东西。并且还知道人最可靠认识物体的方式是通过精神。&lt;/p&gt;
-&lt;p&gt;接下来笛卡尔要寻找是否在我心里还有没有感觉的其他认识。&lt;/p&gt;
-&lt;h2 id=&quot;准则：凡是我们领会得十分清楚、十分分明的东西都</summary>
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/1Mo3gi.jpg&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pexels.com/zh-cn/photo/</summary>
       
     
     
     
-    <category term="哲学" scheme="https://www.mryan.cool/categories/%E5%93%B2%E5%AD%A6/"/>
+    <category term="论文" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/"/>
+    
+    <category term="第三方库分析" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
     
     
-    <category term="笛卡尔" scheme="https://www.mryan.cool/tags/%E7%AC%9B%E5%8D%A1%E5%B0%94/"/>
-    
-    <category term="怀疑论" scheme="https://www.mryan.cool/tags/%E6%80%80%E7%96%91%E8%AE%BA/"/>
+    <category term="第三方库分析" scheme="https://www.mryan.cool/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
