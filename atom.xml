@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2021-08-03T11:06:13.660Z</updated>
+  <updated>2021-08-03T11:18:30.596Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/"/>
     <id>https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/</id>
     <published>2021-08-03T10:56:32.000Z</published>
-    <updated>2021-08-03T11:06:13.660Z</updated>
+    <updated>2021-08-03T11:18:30.596Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>该文章是对  “An Empirical Study of Usages, Updates and Risks of Third-party Libraries in Java Projects的翻译”</strong></p><h1 id=""><a href="#" class="headerlink" title=""></a></h1>]]></content>
+    <content type="html"><![CDATA[<p><strong>该文章是对  “An Empirical Study of Usages, Updates and Risks of Third-party Libraries in Java Projects的翻译”</strong></p><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>第三方库是开发软件系统的核心部件。然而过期的第三方库仍在普遍使用，开发者通常不会意识到潜在危险。因此对第三方库使用，更新，微信的定量和整体研究可以为持续改善生态稳定提供实际的想法。本文将对java生态做一个这样的研究。为了阐述我们研究的有用性，我们发布了一个bug驱动的警报系统来协助开发者在更新时做出可信的决策。</p><h1 id="intruduction"><a href="#intruduction" class="headerlink" title="intruduction"></a>intruduction</h1><h1 id="2-实证研究方法"><a href="#2-实证研究方法" class="headerlink" title="2 实证研究方法"></a>2 实证研究方法</h1>]]></content>
     
     
       
       
     <summary type="html">&lt;p&gt;&lt;strong&gt;该文章是对  “An Empirical Study of Usages, Updates and Risks of Third-party Libraries in Java Projects的翻译”&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;&quot;&gt;&lt;a h</summary>
+&lt;h1 id=&quot;摘要&quot;&gt;&lt;a</summary>
       
     
     
