@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2021-08-11T04:22:26.556Z</updated>
+  <updated>2021-08-12T15:04:22.648Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -17,12 +17,68 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>hadoop-MapReduce Algorithm Design Pattern</title>
+    <link href="https://www.mryan.cool/2021/08/12/hadoop-MapReduce-Algorithm-Design-Pattern/"/>
+    <id>https://www.mryan.cool/2021/08/12/hadoop-MapReduce-Algorithm-Design-Pattern/</id>
+    <published>2021-08-12T04:38:40.000Z</published>
+    <updated>2021-08-12T15:04:22.648Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Co-occurrenct-Matrix"><a href="#Co-occurrenct-Matrix" class="headerlink" title="Co-occurrenct Matrix"></a>Co-occurrenct Matrix</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/YVMIr3.png"></p><p>$${M_{ij}}$$表示在一个句子中共同出现的次数。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/p8cS4v.png"></p><p><strong>作用</strong>：可以用来语言处理，计算相似性</p><p><strong>例子</strong>：</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/T1U2LF.png"></p><p>右图：v和w，x，y共同出现了一次，w和v，x，y，u，t共同出现了一次</p><h2 id="两种MapReducer算法"><a href="#两种MapReducer算法" class="headerlink" title="两种MapReducer算法"></a>两种MapReducer算法</h2><h3 id="Pairs-Approach"><a href="#Pairs-Approach" class="headerlink" title="Pairs Approach"></a>Pairs Approach</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/65tjdE.png"></p><p>原理：类似wordCount</p><p>对每一个单词遍历，然后将它和邻居生成一个pair，同时次数设置为1，写入硬盘。</p><p>类似于wordCount将每一个分词都算一次，写入硬盘</p><h3 id="Stripes-Approach"><a href="#Stripes-Approach" class="headerlink" title="Stripes Approach"></a>Stripes Approach</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/IWZfxF.png"></p><p>对Pairs Approach优化。</p><p>类似In-mapper without preserving state，对每一个单词遍历，找到一个邻居，次数先不着急写入硬盘，而是用map存储，如果又碰到该邻居，从而对map的value加1，从而减少写入硬盘的次数，并且减少output。</p><h1 id="Co-occurrence-Relative-Frequencycies"><a href="#Co-occurrence-Relative-Frequencycies" class="headerlink" title="Co-occurrence Relative Frequencycies"></a>Co-occurrence Relative Frequencycies</h1><h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/SCkw2Z.png"></p><p>如上图</p><ol><li>问题1<ol><li>有多少句子包含了cat和blue (4)</li><li>多少句子包含了boat和blue (4)</li></ol></li><li>问题2<ol><li>当我们在句子看到”cat”时，看到”blue”的可能性有多大  ($${\frac{4}{624}}$$)</li><li>当我们看到”boat”，看到“blue”可能性有多大 ($${\frac{4}{4}}$$)</li></ol></li></ol><p>概率公式：</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/jwkdBk.png"></p><h2 id="难点：如何算出单词总共出现的次数，例如“dog”"><a href="#难点：如何算出单词总共出现的次数，例如“dog”" class="headerlink" title="难点：如何算出单词总共出现的次数，例如“dog”"></a>难点：如何算出单词总共出现的次数，例如“dog”</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1:"></a>方法1:</h3><ol><li>要计算dogs出现的次数，将(dog,*)全部保存在内存中</li><li>将(dog,*)出现的频率想加</li></ol><h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><ol><li>mapper额外输出一个（dog，*）对每一次(dog,xxx)</li><li>在排序时，将(dog,*)排在第一个，这样就可以聚合(dog,*)，从而算出dog出现的频率。</li></ol><p>该设计方法叫做逆序，</p><ol><li>通过该方法，我们可以在对需要数据进行计算时，先访问reducer的计算结果</li><li>关键点是将计算顺序转换成排序问题</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Co-occurrenct-Matrix&quot;&gt;&lt;a href=&quot;#Co-occurrenct-Matrix&quot; class=&quot;headerlink&quot; title=&quot;Co-occurrenct Matrix&quot;&gt;&lt;/a&gt;Co-occurrenct Matrix&lt;/h1&gt;&lt;</summary>
+      
+    
+    
+    
+    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
+    
+    
+    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop-MapReduce</title>
+    <link href="https://www.mryan.cool/2021/08/11/hadoop-MapReduce/"/>
+    <id>https://www.mryan.cool/2021/08/11/hadoop-MapReduce/</id>
+    <published>2021-08-11T10:03:05.000Z</published>
+    <updated>2021-08-12T04:30:08.363Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/CzErwY.png"></p><h1 id="MapReduce介绍"><a href="#MapReduce介绍" class="headerlink" title="MapReduce介绍"></a>MapReduce介绍</h1><h2 id="传统大数据问题"><a href="#传统大数据问题" class="headerlink" title="传统大数据问题"></a>传统大数据问题</h2><ol><li><strong>map</strong><ol><li>遍历大量数据</li><li>从每个元素中提取</li></ol></li><li>打散，重排中间结果</li><li><strong>recude</strong><ol><li>聚合中间结果</li><li>生成最终输出</li></ol></li></ol><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/BRL3jV.png"></p><h2 id="MapReduce的优点"><a href="#MapReduce的优点" class="headerlink" title="MapReduce的优点"></a>MapReduce的优点</h2><p>简单</p><ol><li>只需要实现mapper和reducers</li><li>可选择是否实现combiner和partitioner</li></ol><h2 id="MapReduce的任务"><a href="#MapReduce的任务" class="headerlink" title="MapReduce的任务"></a>MapReduce的任务</h2><ol><li>处理调度<ol><li>分配任务给map和reduer task</li><li>每个job都被分成若干个小task</li></ol></li><li>处理 “数据分布”<ol><li>将代码移到数据块，从而保证数据局部性</li></ol></li><li>处理同步<ol><li>收集，排序，打散中间数据。reducer知道mapper完成才可以执行</li></ol></li><li>处理异常和错误<ol><li>发现工作错误并重启</li></ol></li></ol><h1 id="MapReduce基础"><a href="#MapReduce基础" class="headerlink" title="MapReduce基础"></a>MapReduce基础</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/6xe7g1.png"></p><p>(k1 , v1)是map的input</p><p>(k2 , [v2])是mapper打散&amp;重排后的输出</p><h2 id="Combiner"><a href="#Combiner" class="headerlink" title="Combiner"></a>Combiner</h2><p>所有来自mapper的key-value pairs需要通过网络拷贝，如果中间数据太大，效率会很低。因此在拷贝之前，先对输出做一个本地的聚合。</p><h2 id="Partition-shuffle-sorting"><a href="#Partition-shuffle-sorting" class="headerlink" title="Partition , shuffle , sorting"></a>Partition , shuffle , sorting</h2><p><strong>shuffle</strong>：把map的输出移到reduer的过程。所有kay相同的value都会一起reduce，不管它来自哪个mapper</p><p><strong>partitioner</strong>：对每个pair，由MapReduer平台来决定去哪个partition，如果程序员想自定义，需要实现patitioner。</p><p><strong>sorting</strong>：在reducer开始之前，所有的pair需要根据key进行排序</p><h2 id="黑盒"><a href="#黑盒" class="headerlink" title="黑盒"></a>黑盒</h2><ol><li>mapper和reducer在哪里运行</li><li>什么时候mapper和reducer开始结束</li><li>特定mapper正在处理哪个输入</li><li>特定reducers在处理哪个中间值</li></ol><h1 id="MapReduce本地聚合"><a href="#MapReduce本地聚合" class="headerlink" title="MapReduce本地聚合"></a>MapReduce本地聚合</h1><p><strong>关键点</strong>：</p><ol><li>主要用in-mapper combining 或者 combiner</li><li>可以保存多输入的状态</li></ol><h3 id="Combiner-1"><a href="#Combiner-1" class="headerlink" title="Combiner"></a>Combiner</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/Kr2h4Y.png"></p><h3 id="In-mapper-Combining"><a href="#In-mapper-Combining" class="headerlink" title="In-mapper Combining"></a>In-mapper Combining</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/zuntEk.png"></p><h3 id="In-mapper-Combining-preserve-state"><a href="#In-mapper-Combining-preserve-state" class="headerlink" title="In-mapper Combining(preserve state)"></a>In-mapper Combining(preserve state)</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/YfvvHx.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/CzErwY.png&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;MapReduce介绍&quot;&gt;&lt;a href=&quot;#MapReduce介绍&quot; clas</summary>
+      
+    
+    
+    
+    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
+    
+    
+    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>hadoop-Yarn</title>
     <link href="https://www.mryan.cool/2021/08/11/hadoop-Yarn/"/>
     <id>https://www.mryan.cool/2021/08/11/hadoop-Yarn/</id>
     <published>2021-08-11T04:21:17.000Z</published>
-    <updated>2021-08-11T04:22:26.556Z</updated>
+    <updated>2021-08-11T10:02:31.562Z</updated>
     
+    <content type="html"><![CDATA[<h1 id="YARN"><a href="#YARN" class="headerlink" title="YARN"></a>YARN</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/Y0DA4H.png"></p><p>负责管理集群中的计算机资源，并且用来调度用户应用</p><h1 id="Hadoop1-0"><a href="#Hadoop1-0" class="headerlink" title="Hadoop1.0"></a>Hadoop1.0</h1><p>在hadoop1.0中，MapReduce既负责处理，又负责资源管理。（此时没有Yarn）</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/zXbutz.png"></p><h2 id="Jod-Tracker-the-single-master"><a href="#Jod-Tracker-the-single-master" class="headerlink" title="Jod Tracker - the single master"></a>Jod Tracker - the single master</h2><ol><li>分配资源</li><li>处理调度</li><li>监控正在进行的工作</li></ol><p>Job Tracker分配map和recude任务给子进程–即Task Tracker（定期汇报他的过程给Job Tracker）</p><h2 id="设计后果"><a href="#设计后果" class="headerlink" title="设计后果"></a>设计后果</h2><ol><li>单个Job Trackr导致可扩展性瓶颈<ol><li>IBM根据Yahoo提到，在达到5000node和40000task时，性能出现瓶颈</li></ol></li><li>Hadoop框架仅限于MapReduce处理范式</li></ol><h1 id="Hadoop2-0-引入Yarn"><a href="#Hadoop2-0-引入Yarn" class="headerlink" title="Hadoop2.0 引入Yarn"></a>Hadoop2.0 引入Yarn</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/0j4MVS.png"></p><p>Yarn最初的目的是通过管理资源和工作调度来解放MapReduce</p><p>随着Yarn的引入，Hadoop更加有弹性和效率，具备高扩展性</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/bXOrjO.png"></p><h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ol><li>调度<ol><li>根据需求分配资源给应用</li></ol></li><li>应用管理<ol><li>从资源管理器协商第一个容器，以执行特定于应用程序的应用程序主机</li><li>在集群中管理Application Master</li><li>出现故障时，重启application Master</li></ol></li></ol><p>如图</p><h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>硬件资源的集合，比如RAM，CPU，硬盘等</p><h3 id="Node-Manager"><a href="#Node-Manager" class="headerlink" title="Node Manager"></a>Node Manager</h3><ol><li>负责集群中的节点</li><li>通过Resource Manager注册，并发送带有node节点健康状态的心跳给rourese manager</li><li>Application Master通过发送container launch context（CLC）CLC包括了应用需要的所有信息，然后向node manager中的container发送请求。Node manager然后创建并启动请求的container进程</li></ol><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/AANDiW.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;YARN&quot;&gt;&lt;a href=&quot;#YARN&quot; class=&quot;headerlink&quot; title=&quot;YARN&quot;&gt;&lt;/a&gt;YARN&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud</summary>
+      
     
     
     
@@ -38,7 +94,7 @@
     <link href="https://www.mryan.cool/2021/08/11/hadoop-HDFS/"/>
     <id>https://www.mryan.cool/2021/08/11/hadoop-HDFS/</id>
     <published>2021-08-11T03:36:10.000Z</published>
-    <updated>2021-08-11T04:21:22.617Z</updated>
+    <updated>2021-08-11T10:04:01.718Z</updated>
     
     <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>hadoop 是一个开源的框架，用于在商业集群上存储和大规模处理数据集。</p><p>hadoop由许多组件构成</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/wVwJpG.png"></p><h1 id="Storage-HDFS"><a href="#Storage-HDFS" class="headerlink" title="Storage - HDFS"></a>Storage - HDFS</h1><p>HDFS对其文件和应用遵循“写一次，读n次”的策略，所有曾经写过的文件不会修改。</p><h2 id="HDFS的特性"><a href="#HDFS的特性" class="headerlink" title="HDFS的特性"></a>HDFS的特性</h2><p>HDFS是一个分布式文件系统</p><ol><li>拥有好的容错率—-HDFS被设计出来就是为了运行在低成本的硬件上。</li><li>具有对应用数据访问的高吞吐性—-适合存储大量数据的应用</li><li>允许流访问文件系统数据</li></ol><h3 id="Architecture-of-HDFS"><a href="#Architecture-of-HDFS" class="headerlink" title="Architecture of HDFS"></a>Architecture of HDFS</h3><p>一个文件被分成多个block，这些快存储在DataNOdes的集合中。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/cFpH7k.png"></p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/NSDbPP.png"></p><h4 id="Master-Slave-Architecture-–-一个NameNode-，-多个DataNode"><a href="#Master-Slave-Architecture-–-一个NameNode-，-多个DataNode" class="headerlink" title="Master/Slave Architecture – 一个NameNode ， 多个DataNode"></a>Master/Slave Architecture – 一个NameNode ， 多个DataNode</h4><p>一个NameNode </p><ol><li>维持整个文件系统命名空间<ol><li>所有对文件系统命令空间的改变都会被记录在NameNode中</li><li>应用可以指定备份的个数</li></ol></li><li>包括文件系统树和所有文件的元数据</li></ol><p>多个DataNode</p><ol><li>服务来自客户的读写请求</li><li>根据来自NameNode的指令，负责block的创建，删除，冗余</li></ol><h4 id="数据复制"><a href="#数据复制" class="headerlink" title="数据复制"></a>数据复制</h4><p>HDFS被设计成在一个跨机器的大型集群中存储大量数据</p><p>存储原理：将文件分成若干block，除了最后一个之外，所有的block都相同。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/C8BLQ6.png"></p><p>block的辅助由NameNode来管理。NameNode会定期从集群中的DataNode中接受心跳检测和块报告</p><p>![image-20210811121405224](/Users/yixuanyan/Library/Application Support/typora-user-images/image-20210811121405224.png)</p><p>如图，NameNode存储文件的元信息，物理文件放在Datanode。</p><h4 id="数据存放策略"><a href="#数据存放策略" class="headerlink" title="数据存放策略"></a>数据存放策略</h4><p>本地rack(包含多个datanode)存在一个备份，其他rock存放一个卑微，其他Rock的不同datanode存放一个备份。</p>]]></content>
     
