@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2021-08-14T13:59:05.543Z</updated>
+  <updated>2021-08-18T08:16:05.565Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>The Google File System</title>
+    <link href="https://www.mryan.cool/2021/08/18/The-Google-File-System/"/>
+    <id>https://www.mryan.cool/2021/08/18/The-Google-File-System/</id>
+    <published>2021-08-18T00:26:11.000Z</published>
+    <updated>2021-08-18T08:16:05.565Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>本文是对谷歌论文：The Google File System的笔记</strong></p><p><strong>作者：Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung Google∗</strong></p><p><strong>URL：<a href="http://nil.csail.mit.edu/6.824/2020/papers/gfs.pdf">http://nil.csail.mit.edu/6.824/2020/papers/gfs.pdf</a></strong></p><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>谷歌文件系统是一个可扩展的分布式文件系统，用于大型分布式数据密集型系统。在商业硬件的基础上，提供了容错机制，并且对大量客户端提供了较高的综合性能</p><h1 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h1><p>容错机制，可扩展，数据存储，集群存储</p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><ol><li>部件失效是正常而不是异常。文件系统由成千上百商业机器组成，被大量客户访问。这些部件的数量和质量几乎保证了某些部件在任何给定时间都不能正常工作，而某些部件则无法从当前的故障中恢复过来。</li><li>按照标准，文件是巨大的。GB文件是常见的。每个文件包含了许多应用对象，比如web文件。当定期处理快速增长，并且包含许多对象的TB文件时，按照处理KB文件的方式处理它们很不明智，尽管文件系统可以这么做。因此，设计思想和参数设置比如I/O操作和块大小必须重新考虑</li><li>大多数文件是以追加的形式改变，而不是直接重写。在文件的随机写操作实际上是不存在的。一旦写入，文件只能读取，并且只能按顺序。按照这种特性，追加成为性能优化和原子性保证的重点，在客户中缓存失去了吸引力</li><li>共同设计应用程序和文件系统API可以提高我们的灵活性，从而使整个系统受益。比如放宽了GFS的一致性模型，可以简化我们的设计，但是不会对应用造成困难。</li></ol><h1 id="设计梗概"><a href="#设计梗概" class="headerlink" title="设计梗概"></a>设计梗概</h1><h2 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h2><ol><li>系统运行在许多商业部件上，这些部件容易异常。系统必须持续监控自己，在日常工作失败时，快速发现，容忍，恢复部件</li><li>系统存储许多大文件。假设有几百万个文件，通常在100MB甚至更大。GB级别的文件是很常见的，并且需要有效管理。小文件也需要支持，但我们不用特殊优化他们</li><li>工作量主要有两种读构成。大的流读和小的随机读。在大的流读中，单个操作通常读数百KB，甚至超过1MB。来自同一客户端的操作通常读一个文件的连续部分。小的随机读通常在任意文件处读几KB。性能敏感的应用程序经常对小的读取进行批处理和排序，以便在文件中稳步推进，而不是来回切换。</li><li>工作量还有大量的连续写，在文件中追加数据。一般操作大小和读差不多。一旦写入，文件便无法修改。在任意处的小规模的写也支持，但不用特殊优化</li><li>系统必须有效地为并发地追加到同一个文件的多个客户端实现定义良好的语义。我们的文件经常被用作生产者-消费者队列或多路合并。大量生产者运行在同一台机器，并发追加到文件。具有最小同步开销的原子性是必不可少的。文件可能稍后被读取，或者使用者可能同时读取文件。</li><li>高持续宽带比低延迟更重要。我们的大多数目标应用程序都注重以高速率批量处理数据，而很少有应用程序对单独的读或写有严格的响应时间要求</li></ol><h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>GFS提供基本操作，create , delete , open ,close ,read , write</p><p>也提供快照和追加记录。快照用较低的成本创建一个文件或目录树的副本。追加记录允许多个客户并发向同一个文件追加数据，同时保证每个用户追加操作的原子性。系统适用于实现多路合并结果和生产者-消费者队列，许多客户端可以在没有附加锁的情况下同时追加数据。</p><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>GFS集群由一个master和多个chunkserver构成，并且被多个client访问。</p><p>![](/Users/yixuanyan/Library/Application Support/typora-user-images/image-20210818113543838.png)</p><p>文件被分成固定的chunk。每个chunk在被创建时被一个全局独有并且不可变的64比特chunk handle所标记。chunkserver在本地磁盘存储chunk，就像Linux 文件，根据chunk handle和比特范围来读或者写。为了稳可靠性，每个chunk在多个chunserver复制，默认是三份，尽管用户可以为了文件命名空间的不同区域指定不同的复制层次。</p><p>master维护所有文件系统元数据，包括命名空间，访问信息，文件到chunk的映射，chunk的当前位置。同时还控制系统范围的活动，比如chunk租贷管理，孤儿chunk的垃圾回收，chunkserver的chunk迁移。master定期通过心跳信息和每个chunkserver沟通，并且给予指令和收集其状态。</p><p>连接到每个应用的GFS client代码都实现了文件系统的API，并且可以和master和chunkserver沟通来代表应用进行读，写数据。client和master交互，进行元数据的操作，但是所有和传输数据相关的操作直接于chunkserver进行。</p><p>client和chunkserver都不需要缓存文件数据。客户机缓存几乎没有什么好处，因为大多数应用程序都要处理巨大的文件，或者工作集太大而无法缓存。没有缓存一致性问题，简化了客户端和整个系统。chunkserver也不需要，因为chunk存储在本地文件，所以Linux的缓冲区缓存已经将频繁访问的数据保存在内存中了。</p><h2 id="单一master"><a href="#单一master" class="headerlink" title="单一master"></a>单一master</h2><p>单一master可以通过全局变量来chunk的转移和复制决策。但是必须减少他对读写的影响，否则可能造成读写的瓶颈（因为master只有一个）。client不与master进行读写操作，相反，client向master询问需要与哪个chunserver交互。缓存这些信息，然后在接下来的操作中直接和chunkserver交互。（有没有一点像DMA？）</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;strong&gt;本文是对谷歌论文：The Google File System的笔记&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;作者：Sanjay Ghemawat, Howard Gobioff, and Shun-Tak Leung Google∗&lt;/strong</summary>
+      
+    
+    
+    
+    <category term="分布式系统" scheme="https://www.mryan.cool/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+    <category term="分布式系统" scheme="https://www.mryan.cool/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
+    
+    <category term="文件系统" scheme="https://www.mryan.cool/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>MapReduce:Simplified Data Processing On Large Clusters</title>
