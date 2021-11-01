@@ -150,31 +150,6 @@
   </entry>
   
   <entry>
-    <title>hadoop-MapReduce Algorithm Design Pattern</title>
-    <link href="https://www.mryan.cool/2021/08/12/hadoop-MapReduce-Algorithm-Design-Pattern/"/>
-    <id>https://www.mryan.cool/2021/08/12/hadoop-MapReduce-Algorithm-Design-Pattern/</id>
-    <published>2021-08-12T04:38:40.000Z</published>
-    <updated>2021-08-13T03:09:03.696Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="co-occurrenct-matrix"><a class="markdownIt-Anchor" href="#co-occurrenct-matrix"></a> Co-occurrenct Matrix</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/YVMIr3.png" alt="" /></p>{M_{ij}}$$表示在一个句子中共同出现的次数。![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/p8cS4v.png)**作用**：可以用来语言处理，计算相似性**例子**：![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/T1U2LF.png)右图：v和w，x，y共同出现了一次，w和v，x，y，u，t共同出现了一次## 两种MapReducer算法### Pairs Approach![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/65tjdE.png)原理：类似wordCount对每一个单词遍历，然后将它和邻居生成一个pair，同时次数设置为1，写入硬盘。类似于wordCount将每一个分词都算一次，写入硬盘### Stripes Approach![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/IWZfxF.png)对Pairs Approach优化。类似In-mapper without preserving state，对每一个单词遍历，找到一个邻居，次数先不着急写入硬盘，而是用map存储，如果又碰到该邻居，从而对map的value加1，从而减少写入硬盘的次数，并且减少output。# Co-occurrence Relative Frequencycies## 问题：![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/SCkw2Z.png)如上图1. 问题1   1. 有多少句子包含了cat和blue (4)   2. 多少句子包含了boat和blue (4)2. 问题2   1. 当我们在句子看到"cat"时，看到"blue"的可能性有多大  ($${\frac{4}{624}}$$)   2. 当我们看到"boat"，看到“blue”可能性有多大 ($${\frac{4}{4}}$$)概率公式：![](https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/jwkdBk.png)## 难点：如何算出单词总共出现的次数，例如“dog”### 方法1:1. 要计算dogs出现的次数，将(dog,*)全部保存在内存中2. 将(dog,*)出现的频率相加### 方法21. mapper对每一次(dog,xxx)额外输出一个（dog，*）2. 在排序时，将(dog,\*)排在第一个，这样就可以聚合(dog,\*)，从而算出dog出现的频率。该设计方法叫做逆序，1. 通过该方法，我们可以在对需要数据进行计算时，先访问reducer的计算结果2. 关键点是将计算顺序转换成排序问题]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;co-occurrenct-matrix&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#co-occurrenct-matrix&quot;&gt;&lt;/a&gt; Co-occurrenct Matrix&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;https://</summary>
-      
-    
-    
-    
-    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
-    
-    
-    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
     <title>hadoop-MapReduce</title>
     <link href="https://www.mryan.cool/2021/08/11/hadoop-MapReduce/"/>
     <id>https://www.mryan.cool/2021/08/11/hadoop-MapReduce/</id>
