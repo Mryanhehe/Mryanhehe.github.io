@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.mryan.cool/2023/05/21/config-zookeeper%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    
+    <lastmod>2023-05-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.mryan.cool/2021/11/02/ZooKeeper-wait-free-coordination-for-Internet-scale-systems/</loc>
     
     <lastmod>2021-11-11</lastmod>
@@ -73,6 +80,20 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://www.mryan.cool/tags/Java/</loc>
+    <lastmod>2023-05-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mryan.cool/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
+    <lastmod>2023-05-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -84,6 +105,13 @@
   
   <url>
     <loc>https://www.mryan.cool/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/</loc>
+    <lastmod>2023-05-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mryan.cool/categories/Java/</loc>
     <lastmod>2023-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
