@@ -6,7 +6,7 @@
   <link href="https://www.mryan.cool/atom.xml" rel="self"/>
   
   <link href="https://www.mryan.cool/"/>
-  <updated>2021-11-22T01:53:18.785Z</updated>
+  <updated>2021-11-11T10:23:14.387Z</updated>
   <id>https://www.mryan.cool/</id>
   
   <author>
@@ -15,31 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>An End-to-End Learning-based Cost Estimator</title>
-    <link href="https://www.mryan.cool/2021/11/21/An-End-to-End-Learning-based-Cost-Estimator/"/>
-    <id>https://www.mryan.cool/2021/11/21/An-End-to-End-Learning-based-Cost-Estimator/</id>
-    <published>2021-11-21T09:38:28.000Z</published>
-    <updated>2021-11-22T01:53:18.785Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文是对<strong>An End-to-End Learning-based Cost Estimator</strong>的翻译和笔记</p><h1 id="abstract"><a class="markdownIt-Anchor" href="#abstract"></a> abstract</h1><p>开销(工作的估计量)和基数(步骤执行返回的行数)估计对于查询优化器来说至关重要，它可以指导计划查询的选择。然而，传统的经验开销和基数估计技术因为无法正确捕获多表之间的相关性，从而不能得到高质量的预估。近期数据库社区展示 基于学习的基数估计比经验估计更有效，然而现存的基于学习的方法有如下缺点</p><ol><li>聚焦估计技术，但是不能估计开销</li><li>要么过于沉重，要么难以表示复杂的结构，例如复杂的谓词</li></ol><p>为了解决以上问题，提出了通过树状组织模型一种有效的端对端的基于学习的开销估计框架，在特征提取中同时考虑查询和物理操作。将这些特征嵌入到树状组织中，可以提高谓词匹配的泛化能力。因为枚举所有的字符串成本较高，我们设计了一种模式匹配方法，会选择模式来匹配字符，并用模式来向量化字符串。</p><h1 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> introduction</h1><p>查询调优对数据库系统至关重要，其目的是为SQL语句选择最优的查询计划。然而，最近研究显示经典的查询优化器经常会因为较差的开销和基数估计而产生次优化查询。原因如下</p><ol><li>传统经验开销/cardinality估算技术不能捕获多个列的相关性，尤其是对大的table和column</li><li>开销模型需要由DBA来调优</li></ol><p>近些年，社区试图利用机器学习模型来提高基数估计的性能。MSCN采用卷积神经网络来估算基数，然而，该技术仍有缺陷</p><ol><li>仅仅估计了技术，没有估计开销</li><li>average pooling的深度神经网络很难表示复杂结构。比如模型很难泛化到其他sql语句</li></ol><p>设置基于机器学习的开销有四个挑战</p><ol><li>需要设计一个端对端的模型来预估cost和cardinality</li><li>学习模型应该捕获查询计划的树形结构信息</li><li>如果我们不知道哪个字符串满足的字符模式，支持带有字符串值的谓词相当困难，比如“not like”。字符串过于稀疏，很难讲字符嵌入到模型中</li><li>模型应该具有较强的泛化能力去支持各种各样的sql语句</li></ol><p>为了应对，我们通过神经网络提出了端对端的基于机器学习的开销预估模型，设计了一个树状模型，可以从每个子计划中学习到其表示，可以无缝地替代传统的成本估算器。树状模型也可以表示有数值和字符sql语句的复杂预测。</p><h2 id="contributions"><a class="markdownIt-Anchor" href="#contributions"></a> contributions</h2><ol><li>一个基于树状模型，设计了一个有效的基于机器学习的端对端的成本预估模型，可以同时预估cost和cardinality</li><li>提出了有效的特征提取和向量化技术，在特征提取中考虑了查询和物理操作。将这些特征嵌入到树状模型中，利用树状模型可以估计cost和candinality</li><li>对于带有字符串的谓词，还提出了一种有效的技术来对字符串编码，从而提高泛化性能。由于枚举所有的字符串代价太高，设置了一种模式匹配的方法，会选择匹配字符串的模式，通过该模式来向量话字符串</li><li>实验验证，该模型表现良好</li></ol><h1 id="related-work"><a class="markdownIt-Anchor" href="#related-work"></a> Related work</h1><h2 id="传统cardinality估计"><a class="markdownIt-Anchor" href="#传统cardinality估计"></a> 传统cardinality估计</h2><p>传统cardinality估计大致分为三类</p><ol><li><p>基于直方图的方法</p><p>核心思路是将cell value分为等深或等宽的桶，保持每个桶的基数不变，根据桶的大小来估计基数</p></li><li><p>sketching</p></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;本文是对&lt;strong&gt;An End-to-End Learning-based Cost Estimator&lt;/strong&gt;的翻译和笔记&lt;/p&gt;
-&lt;h1 id=&quot;abstract&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#abstract</summary>
-      
-    
-    
-    
-    <category term="数据库调优" scheme="https://www.mryan.cool/categories/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B0%83%E4%BC%98/"/>
-    
-    
-    <category term="数据库" scheme="https://www.mryan.cool/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
   
   <entry>
     <title>ZooKeeper-wait-free-coordination-for-Internet-scale-systems</title>
@@ -117,164 +92,6 @@
     <category term="分布式系统" scheme="https://www.mryan.cool/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
     
     <category term="文件系统" scheme="https://www.mryan.cool/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MapReduce:Simplified Data Processing On Large Clusters</title>
-    <link href="https://www.mryan.cool/2021/08/14/MapReduce-Simplified-Data-Processing-On-Large-Clusters/"/>
-    <id>https://www.mryan.cool/2021/08/14/MapReduce-Simplified-Data-Processing-On-Large-Clusters/</id>
-    <published>2021-08-14T01:04:10.000Z</published>
-    <updated>2021-08-18T00:30:00.466Z</updated>
-    
-    <content type="html"><![CDATA[<p>**本文是对谷歌论文：MapReduce: Simplified Data Processing on Large Clusters 的笔记 **</p><p><strong>作者：Jeffery Bean and Sanjay Ghemawat</strong></p><p><strong>URL:<a href="http://nil.csail.mit.edu/6.824/2020/papers/mapreduce.pdf">http://nil.csail.mit.edu/6.824/2020/papers/mapreduce.pdf</a></strong></p><p><strong>在阅读中使用遵循3W原则，即why，what，how</strong></p><h1 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h1><p>MapReduce是一个编程模型，实现了处理并生成大数据集合。map用来处理一个&lt;key,value&gt; pair并生成一系列中间&lt;key,value&gt; pair，reduce用来聚合所有key相同的pair。</p><p>按照mapreduce风格编写的代码可以直接在大型机器上运行。让运行时系统来负责输入数据的分区，处理程序的调度和失败异常。通过这般，程序猿即使对分布式系统不了解，也可以轻松在分布式系统上处理大量数据。</p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PS：mapreduce是一种编写风格</span><br><span class="line">why：许多人对分布式系统不了解，却仍然需要用分布式系统来处理大数据</span><br><span class="line">what：mapreduce是一个编程风格，按照该风格编写的代码，可以运行在分布式集群中，帮助不了解分布式的人更好完成大数据处理</span><br></pre></td></tr></table></figure><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1><p>本文主要是讲述如何<strong>分布式计算，分散数据，处理异常</strong>。</p><p>为了掩盖大量复杂的分布式计算，分散数据，处理异常，复杂均衡的细节，我们提出了新的抽象，这种抽象灵感主要来自于lisp的map和reduce。我们意识到我们大多数计算是对输入的每个逻辑记录进行一个映射，从而得到一系列简介&lt;key,value&gt;pair，然后对所有key相同的pair进行reduce运算，即便将导出的数据进行一个整合。我们使用用户自定义的map，reduce函数模型，可以很好并行处理，并且将<strong>重启</strong>作为容错的一个主要机制。</p><p>这项工作的主要贡献是提供一个简单而强大的接口，使得可以自动化并行和大规模计算的分布，结合该接口的实现，在大型商用pc集群上实现高性能。</p><p>我们将从一下顺序来说明</p><ol><li>编程模型</li><li>针对基于集群的计算环境，mapreduce接口的实现</li><li>对编程模型的改进</li><li>性能测试</li><li>使用mapreduce进行的工作</li><li>相关工作和未来前景</li></ol><h1 id="编程模型"><a class="markdownIt-Anchor" href="#编程模型"></a> 编程模型</h1><p>计算获取输入的k-v，并且生成输出的k-v。mapreduce库的用户将计算分成两个函数：map，reduce。</p><h2 id="map"><a class="markdownIt-Anchor" href="#map"></a> Map</h2><p>获取input pair，然后生成一系列中间k-v值。mapreduce库将根据相同的key将所有中间值聚合，并且传送到reduce函数中。</p><h2 id="reduce"><a class="markdownIt-Anchor" href="#reduce"></a> reduce</h2><p>获取中间值 I ， 和该key的value集合。将这些value聚合成一个更小的value集合。通常，reduce只输出0或1个结果。传送给reduce的中间值重要通过一个迭代器，迭代器允许我们处理较大的数据，以免溢出内存。</p><h2 id="例子"><a class="markdownIt-Anchor" href="#例子"></a> 例子</h2><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/R7FAmX.png" alt="" /></p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/MQMaEp.png" alt="" /></p><h1 id="实现"><a class="markdownIt-Anchor" href="#实现"></a> 实现</h1><p>不同的环境，实现方式不一样。该文实现方式主要针对google环境。</p><ol><li>处理器是x86架构，每个机器2-4G内存。</li><li>用的是商业网络，通常是100Mb/s或者1000Mb/s。</li><li>一个集群包括数以百计的计算机，因此，机器故障很常见</li><li>存储是便宜的IDE硬盘，直接间接到单个机器。文件系统在硬件不可靠的基础上使用复制来保证可用性和稳定性。</li><li>用户提交一个job给调度系统。每个job由一系列task构成，并且被调度器映射到集群中可用机器上。</li></ol><h2 id="执行"><a class="markdownIt-Anchor" href="#执行"></a> 执行</h2><p>map函数被分布到多个机器是通过自动划分成几个split完成。reduce函数被分布，是通过分区函数对key空间划分成R片（比如hash(key) mod R）。</p><p>运行流程：</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/91CPJ0.png" alt="" /></p><ol><li>maoreduce库首先将input分成M片，通常在16MB到64MB之间。然后在一组机器上启动该程序的许多副本。</li><li>其中有一个程序副本是特别的----master。这有M个map和R和reduce。其余都是由master分配的worker。由master挑选worker来分配map或者reduce task。</li><li>分配map的worker会读取输入文件的对应分割内容。他从输入数据中解析k-v，并且传递给用户自定义的map文件。由map函数生成的k-v对被被存在内存中。</li><li>缓存中的pair会定期写入硬盘，通过分区函数将其划分为R块。在硬盘上的缓存pair将位置传递给master，master负责将这些位置传递给reducer worker。</li><li>当reduce worker被master唤醒，得到了其缓冲pair的位置，就会调用远程call函数来读取map worker硬盘上的缓冲pair。当reduce worker读取了所有中间数据，就会通过key对中间数据进行排序，从而所有key相同的pair会聚集在一起。排序之所以必要，是因为有很多不同的key会映射到相同的reduce task中。如果中间数据太大，内存适应不了，需要使用外部排序。</li><li>reducer worker遍历所有排序后的中间数据，对每个单独的key和对应的value 集合传递给reduce函数。reduce函数的输出会添加这个reduce分区的到最终输出文件的结尾。</li><li>当所有的map任务和reduce任务都完成后，主程序唤醒用户程序。此时，用户程序中的MapReduce调用返回到用户代码。</li></ol><h2 id="master的结构"><a class="markdownIt-Anchor" href="#master的结构"></a> master的结构</h2><ol><li>必须保存每个map task和reduce task的状态（空闲，正在运行，完成），和worker的标识符（里面运行非空闲的task）</li><li>master是一个中间管道，通过它可以将中间文件区域的位置从map task传递到reduce task中。因此，对每个完成的map task，master必须存储由map task生成的中间数据区域的位置和长度。当map任务完成时，会更新位置和长度。信息以递增的方式推给reduce task。</li></ol><h2 id="容错"><a class="markdownIt-Anchor" href="#容错"></a> 容错</h2><p>由于MapReduce库的设计目的是帮助使用数百或数千台机器处理大量数据，因此该库必须优雅地容忍机器故障</p><h3 id="worker-failure"><a class="markdownIt-Anchor" href="#worker-failure"></a> Worker failure</h3><p>master定期ping每个worker，如果一段时间没收到响应，则表示该worker异常。</p><p>任何由worker完成的map task会被重置为空闲，从而可以被master调度到其他的worker中。类似，失败的map或者reduce task也会被重置成空闲，从而再分配。</p><p>在失败的机器上完成的map task需要被重新执行，因为他的输出是存储在失败机器的本地硬盘上，是不可访问的。完成的reduce task不需要重新执行，因为他的输出存储在全局文件系统上。</p><p>当一个map task开始被worker A执行，随后被worker B执行(因为worke A异常)，然后通知所有执行reduce的worker。任何没有从worker A读取数据reduce task需要从worker B读取数据。</p><h3 id="master-failure"><a class="markdownIt-Anchor" href="#master-failure"></a> Master failure</h3><p>为上面描述的master数据结构定期检查。如果master失败，一个新的拷贝可以从最近的检查状态开始。然后，因为只有一个master，因此他很少失败。因此，如果master失败，我们可以终止mapreduce计算。</p><h3 id="存在失败的语义"><a class="markdownIt-Anchor" href="#存在失败的语义"></a> 存在失败的语义</h3><p>如果用户定义的map和reduce是确定的，那么我们的分布式实现产生的结果与无障碍顺序执行的结果是一样的。</p><p>我们依赖map和reduce原子提交来实现这个属性。</p><p>每个执行中的task将他们的输出写到一个私有的临时文件。reduce task产生一个这样的文件，map task产生R这个的文件（1个reduce对应1个）。当map task完成时，worker发送一条消息给master，里面包含R个临时文件的名字。如果master收到一个已经完成的map task，则忽略该消息，否则会更新master数据结构中R个文件的名字。</p><p>当reduce task完成时，reduce worker自动将他的临时输出文件重命名为最终输出文件。如果在多台机器上执行相同的reduce task，则将对相同的最终输出文件执行多个重命名调用。我们依赖底层文件系统提供的原子重命名操作来保证最终的文件系统状态只包含一次reduce任务执行所产生的数据。</p><h3 id="位置"><a class="markdownIt-Anchor" href="#位置"></a> 位置</h3><p>网络宽带是一个稀缺的资源，我们利用输入数据存储在当地磁盘的优点来节约宽带。</p><p>master考虑到输入文件的位置信息，将map task调度到一个包含对应输入数据副本的机器上，不然的话，他就当map task调度到一个离有数据副本机器较劲的机器上（比如同一网络交换机）。</p><p>在集群大部分机器运行mapreduce操作时，大多数input data从本地读取而不是通过网路读取。</p><h3 id="task粒度"><a class="markdownIt-Anchor" href="#task粒度"></a> task粒度</h3><p>如上图，我们将map划分为m片，reduce划分为r片。理想情况下，M和R远大于worker的数量。让一个worker执行许多不同task可以提高动态负载均衡，同时加快worker异常时的恢复。许多完成的map task可以分布到其他的worker中。</p><p>实际上，M和R是有实际大小的。因为master必须处理O（M+R）的调度，内存需要有O（M*R）的空间。</p><p>一般来说，R是由用户限制，选择可以让每个输入数据在16MB-64MB之间的M，因为这样能最好符合空间局部性。</p><h2 id="备份task"><a class="markdownIt-Anchor" href="#备份task"></a> 备份task</h2><p>mapreduce时间较长的一个主要原因是<strong>掉队者</strong>。指一个机器花了很长时间去完成最后几个map或者reduce task。</p><p><strong>掉队者产生的原因有好几个：</strong></p><ol><li>坏的磁盘会经历频繁的纠错，导致读取速度从30MB/S减少到1MB/S。</li><li>调度系统可能在该机器上调度了其他task，导致了CPU，内存，网络宽带的竞争</li></ol><p><strong>解决办法：</strong></p><p>当mapreduce快结束的时候，master会对正在执行的task进行备份。</p><h1 id="改进"><a class="markdownIt-Anchor" href="#改进"></a> 改进</h1><p>尽管map和reduce对大多需求足够，但仍有一些有用的扩展</p><h2 id="分区函数-partitioning-function"><a class="markdownIt-Anchor" href="#分区函数-partitioning-function"></a> 分区函数  Partitioning Function</h2><p>mapreduce的用户定义了reduce task输出文件的个数。</p><p>中间数据的key通过分区函数可以分到不同的区域</p><h2 id="顺序保证"><a class="markdownIt-Anchor" href="#顺序保证"></a> 顺序保证</h2><p>我们保证在给定的分区中，中间的键/值对是按键或键数递增的方式处理的。这种排序保证可以很容易地为每个分区生成一个有序的输出文件，当输出文件格式需要支持按键的有效随机访问查找时，或者输出的用户发现对数据进行排序很方便时，这是很有用的。</p><h2 id="组合函数-combiner-function"><a class="markdownIt-Anchor" href="#组合函数-combiner-function"></a> 组合函数  combiner Function</h2><p>在一些情况，由map task产生的中间数据有很多重复。比如上面的wordCount伪代码，每个map task都会产生数以百计的&lt;the , 1&gt;。这些全部要通过网络传到一个reduce task，然后通过reduce函数将它们相加，产生一个总和。我们允许用户去定义一个组合函数(combiner function)去在他们传输到网络之前，做一个部分的聚集。</p><p>combiner函数在<strong>执行map task的机器上</strong>执行。一般来说，combiner函数和reduce函数代码相同。唯一的不同是reduce函数和combiner函数对输出文件处理不同。reduce函数的输出文件是最终输出文件，combiner函数写到一个中间文件，最后发送到reduce task中。</p><h2 id="输入输出类型"><a class="markdownIt-Anchor" href="#输入输出类型"></a> 输入输出类型</h2><p>mapreduce库提供了以几种不同格式读取输入数据。</p><p><strong>text模式：</strong></p><p>将每一行作为k-v键值对。key是文件的偏移量，value是该行的内容。</p><p>如果想添加其他类型，需要实现reader接口。reader接口并不是必须提供从文件读取数据，也可以从数据库，或者是内存映射中读取。</p><h2 id="副作用"><a class="markdownIt-Anchor" href="#副作用"></a> 副作用</h2><h2 id="跳过坏记录"><a class="markdownIt-Anchor" href="#跳过坏记录"></a> 跳过坏记录</h2><p>有时候因为用户代码的bug，导致map和reduce函数在某些记录上崩溃。这样的bug导致mapreduce无法完成。通常办法是修复他，但有时不可行，因为这个bug可能是第三方库的bug。因此，有时候在做统计时，可以忽略一些数据。我们提供了一种可选的模式，当mapreduce库发觉一些记录会导致崩溃时，会跳过这些数据以便继续运行。</p><p>每个worker进程安装一个信号处理来捕获分段错误和总线错误。在调用用户map和reduce之前，mapreduce库将参数序号存储在一个全局变量中。如果用户代码发出一个信号，信号处理发送一个包含参数序号“last gasp” UDP包给master。当master看到在一个记录上出现多次错误，他会在下一次map和reduce task执行时，跳过这些记录。</p><h2 id="本地执行"><a class="markdownIt-Anchor" href="#本地执行"></a> 本地执行</h2><p>调试map和recude函数很难，因为实际的计算在分布式系统进行，master进行动态的工作分配。为了方便调试，分析，小规模测试，我们开发了一个mapreduce的替代实现，可以在本地机器顺序执行mapreduce的所有工作。控制权交给用户，以便计算可以限制在特定的map task中。用户标记他们的程序，可以轻松调试。</p><h2 id="状态信息"><a class="markdownIt-Anchor" href="#状态信息"></a> 状态信息</h2><p>master内部运行一个http服务器，并且暴露一系列状态给用户使用。状态页面展示了计算的过程，比如多少task完成，多少task在进行，中间数据的输入文件大小等等。这些页面还包含到每个task生成的标准错误和标准输出文件的链接。用户可以根据这些来预测计算要花费的时间，是否应该在计算机中加入更多资源。这些页面也可以指出是否计算比预期要慢。</p><p>此外，顶级状态页面显示哪些worker失败了，以及当他们失败时正在处理哪些map和reduce task。当试图诊断用户代码中的错误时，此信息是有用的。</p><h2 id="计数器"><a class="markdownIt-Anchor" href="#计数器"></a> 计数器</h2><p>mapreduce提供了一个计数器来方便计算各种事件的发生。比如，用户代码可能希望计算处理的单词总数或索引的德语文档的数量。</p><p>为了实现，用户代码可以创建一个counter对象，并且在每一个map或者reduce task中递增。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/JXJigY.png" alt="" /></p><p>counter来自个别worker的值会传播给master（通过ping的response）。master根据成功完成的map或者reduce task聚合counter的值，并且在mapreduce完成后返回给用户代码。当前counter的值也会显示在master的状态页面中，一遍用户可以看到实时计算的进展。当聚合counter值是，master消除了相同map或者reduce task的重复执行（可能因为用户的备份，或者因为失败而重新执行）。</p><p>有一些counter值是mapreduce库自动维护的，比如输入的k-v数量，输出的k-v数量。</p><p>用户发现计数器工具对于合理性检查MapReduce操作的行为很有用。比如用户希望输出的pair和输入的pair数量相同。</p><h1 id="性能"><a class="markdownIt-Anchor" href="#性能"></a> 性能</h1><p>我们对两个程序进行了测量。一个是对1TB数据进行模式匹配，一个是对1TB数据进行排序。这两类程序是mapreduce的一大子集----一个是将数据从一种表示变成另一个表示，一种是从大数据中提取相关元素。</p><h1 id="经验"><a class="markdownIt-Anchor" href="#经验"></a> 经验</h1><h2 id="大规模的索引"><a class="markdownIt-Anchor" href="#大规模的索引"></a> 大规模的索引</h2><p>谷歌将它们的产品索引系统产生的数据重写了一份。</p><p>使用mapreduce的好处</p><ol><li>索引代码更简单</li><li>maoreduce库的性能很好，我们可以将不想管的计算分开，而不是混在一起以免有额外的数据传递。</li><li>索引进程更简单操作，因为大部分机器故障，网络故障都被mapreduce库解决</li></ol><h1 id="相关工作"><a class="markdownIt-Anchor" href="#相关工作"></a> 相关工作</h1><p>主要介绍了几个思想的来源，懒得翻译了。。。</p><h1 id="结论"><a class="markdownIt-Anchor" href="#结论"></a> 结论</h1><ol><li>对编程模型的限制使其易于对等和分布计算，并使这种计算具有容错性</li><li>网络宽带是一个稀缺资源，一系列优化主要针对减少网络传递的数据。局部性优化让我们从本地磁盘读取数据，将中间数据的单个副本写入本地磁盘可以节省网络带宽</li><li>冗余执行可用于减少慢速机器的影响，并处理机器故障和数据丢失。</li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;**本文是对谷歌论文：MapReduce: Simplified Data Processing on Large Clusters 的笔记 **&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;作者：Jeffery Bean and Sanjay Ghemawat&lt;/strong&gt;&lt;/p&gt;</summary>
-      
-    
-    
-    
-    <category term="分布式系统" scheme="https://www.mryan.cool/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-    <category term="分布式系统" scheme="https://www.mryan.cool/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
-    
-    <category term="mapreduce" scheme="https://www.mryan.cool/tags/mapreduce/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hadoop-MapReduce</title>
-    <link href="https://www.mryan.cool/2021/08/11/hadoop-MapReduce/"/>
-    <id>https://www.mryan.cool/2021/08/11/hadoop-MapReduce/</id>
-    <published>2021-08-11T10:03:05.000Z</published>
-    <updated>2021-08-12T04:30:08.363Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/CzErwY.png" alt="" /></p><h1 id="mapreduce介绍"><a class="markdownIt-Anchor" href="#mapreduce介绍"></a> MapReduce介绍</h1><h2 id="传统大数据问题"><a class="markdownIt-Anchor" href="#传统大数据问题"></a> 传统大数据问题</h2><ol><li><strong>map</strong><ol><li>遍历大量数据</li><li>从每个元素中提取</li></ol></li><li>打散，重排中间结果</li><li><strong>recude</strong><ol><li>聚合中间结果</li><li>生成最终输出</li></ol></li></ol><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/BRL3jV.png" alt="" /></p><h2 id="mapreduce的优点"><a class="markdownIt-Anchor" href="#mapreduce的优点"></a> MapReduce的优点</h2><p>简单</p><ol><li>只需要实现mapper和reducers</li><li>可选择是否实现combiner和partitioner</li></ol><h2 id="mapreduce的任务"><a class="markdownIt-Anchor" href="#mapreduce的任务"></a> MapReduce的任务</h2><ol><li>处理调度<ol><li>分配任务给map和reduer task</li><li>每个job都被分成若干个小task</li></ol></li><li>处理 “数据分布”<ol><li>将代码移到数据块，从而保证数据局部性</li></ol></li><li>处理同步<ol><li>收集，排序，打散中间数据。reducer知道mapper完成才可以执行</li></ol></li><li>处理异常和错误<ol><li>发现工作错误并重启</li></ol></li></ol><h1 id="mapreduce基础"><a class="markdownIt-Anchor" href="#mapreduce基础"></a> MapReduce基础</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/6xe7g1.png" alt="" /></p><p>(k1 , v1)是map的input</p><p>(k2 , [v2])是mapper打散&amp;重排后的输出</p><h2 id="combiner"><a class="markdownIt-Anchor" href="#combiner"></a> Combiner</h2><p>所有来自mapper的key-value pairs需要通过网络拷贝，如果中间数据太大，效率会很低。因此在拷贝之前，先对输出做一个本地的聚合。</p><h2 id="partition-shuffle-sorting"><a class="markdownIt-Anchor" href="#partition-shuffle-sorting"></a> Partition , shuffle , sorting</h2><p><strong>shuffle</strong>：把map的输出移到reduer的过程。所有kay相同的value都会一起reduce，不管它来自哪个mapper</p><p><strong>partitioner</strong>：对每个pair，由MapReduer平台来决定去哪个partition，如果程序员想自定义，需要实现patitioner。</p><p><strong>sorting</strong>：在reducer开始之前，所有的pair需要根据key进行排序</p><h2 id="黑盒"><a class="markdownIt-Anchor" href="#黑盒"></a> 黑盒</h2><ol><li>mapper和reducer在哪里运行</li><li>什么时候mapper和reducer开始结束</li><li>特定mapper正在处理哪个输入</li><li>特定reducers在处理哪个中间值</li></ol><h1 id="mapreduce本地聚合"><a class="markdownIt-Anchor" href="#mapreduce本地聚合"></a> MapReduce本地聚合</h1><p><strong>关键点</strong>：</p><ol><li>主要用in-mapper combining 或者 combiner</li><li>可以保存多输入的状态</li></ol><h3 id="combiner-2"><a class="markdownIt-Anchor" href="#combiner-2"></a> Combiner</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/Kr2h4Y.png" alt="" /></p><h3 id="in-mapper-combining"><a class="markdownIt-Anchor" href="#in-mapper-combining"></a> In-mapper Combining</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/zuntEk.png" alt="" /></p><h3 id="in-mapper-combiningpreserve-state"><a class="markdownIt-Anchor" href="#in-mapper-combiningpreserve-state"></a> In-mapper Combining(preserve state)</h3><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/YfvvHx.png" alt="" /></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/CzErwY.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;h1 id=&quot;mapreduce介绍&quot;&gt;&lt;a class=&quot;markdown</summary>
-      
-    
-    
-    
-    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
-    
-    
-    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hadoop-Yarn</title>
-    <link href="https://www.mryan.cool/2021/08/11/hadoop-Yarn/"/>
-    <id>https://www.mryan.cool/2021/08/11/hadoop-Yarn/</id>
-    <published>2021-08-11T04:21:17.000Z</published>
-    <updated>2021-08-11T10:02:31.562Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="yarn"><a class="markdownIt-Anchor" href="#yarn"></a> YARN</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/Y0DA4H.png" alt="" /></p><p>负责管理集群中的计算机资源，并且用来调度用户应用</p><h1 id="hadoop10"><a class="markdownIt-Anchor" href="#hadoop10"></a> Hadoop1.0</h1><p>在hadoop1.0中，MapReduce既负责处理，又负责资源管理。（此时没有Yarn）</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/zXbutz.png" alt="" /></p><h2 id="jod-tracker-the-single-master"><a class="markdownIt-Anchor" href="#jod-tracker-the-single-master"></a> Jod Tracker - the single master</h2><ol><li>分配资源</li><li>处理调度</li><li>监控正在进行的工作</li></ol><p>Job Tracker分配map和recude任务给子进程–即Task Tracker（定期汇报他的过程给Job Tracker）</p><h2 id="设计后果"><a class="markdownIt-Anchor" href="#设计后果"></a> 设计后果</h2><ol><li>单个Job Trackr导致可扩展性瓶颈<ol><li>IBM根据Yahoo提到，在达到5000node和40000task时，性能出现瓶颈</li></ol></li><li>Hadoop框架仅限于MapReduce处理范式</li></ol><h1 id="hadoop20-引入yarn"><a class="markdownIt-Anchor" href="#hadoop20-引入yarn"></a> Hadoop2.0 引入Yarn</h1><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/0j4MVS.png" alt="" /></p><p>Yarn最初的目的是通过管理资源和工作调度来解放MapReduce</p><p>随着Yarn的引入，Hadoop更加有弹性和效率，具备高扩展性</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/bXOrjO.png" alt="" /></p><h2 id="功能"><a class="markdownIt-Anchor" href="#功能"></a> 功能</h2><ol><li>调度<ol><li>根据需求分配资源给应用</li></ol></li><li>应用管理<ol><li>从资源管理器协商第一个容器，以执行特定于应用程序的应用程序主机</li><li>在集群中管理Application Master</li><li>出现故障时，重启application Master</li></ol></li></ol><p>如图</p><h3 id="container"><a class="markdownIt-Anchor" href="#container"></a> Container</h3><p>硬件资源的集合，比如RAM，CPU，硬盘等</p><h3 id="node-manager"><a class="markdownIt-Anchor" href="#node-manager"></a> Node Manager</h3><ol><li>负责集群中的节点</li><li>通过Resource Manager注册，并发送带有node节点健康状态的心跳给rourese manager</li><li>Application Master通过发送container launch context（CLC）CLC包括了应用需要的所有信息，然后向node manager中的container发送请求。Node manager然后创建并启动请求的container进程</li></ol><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/AANDiW.png" alt="" /></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;yarn&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#yarn&quot;&gt;&lt;/a&gt; YARN&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com</summary>
-      
-    
-    
-    
-    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
-    
-    
-    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hadoop-HDFS</title>
-    <link href="https://www.mryan.cool/2021/08/11/hadoop-HDFS/"/>
-    <id>https://www.mryan.cool/2021/08/11/hadoop-HDFS/</id>
-    <published>2021-08-11T03:36:10.000Z</published>
-    <updated>2021-08-11T10:04:01.718Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1><p>hadoop 是一个开源的框架，用于在商业集群上存储和大规模处理数据集。</p><p>hadoop由许多组件构成</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/wVwJpG.png" alt="" /></p><h1 id="storage-hdfs"><a class="markdownIt-Anchor" href="#storage-hdfs"></a> Storage - HDFS</h1><p>HDFS对其文件和应用遵循“写一次，读n次”的策略，所有曾经写过的文件不会修改。</p><h2 id="hdfs的特性"><a class="markdownIt-Anchor" href="#hdfs的特性"></a> HDFS的特性</h2><p>HDFS是一个分布式文件系统</p><ol><li>拥有好的容错率----HDFS被设计出来就是为了运行在低成本的硬件上。</li><li>具有对应用数据访问的高吞吐性----适合存储大量数据的应用</li><li>允许流访问文件系统数据</li></ol><h3 id="architecture-of-hdfs"><a class="markdownIt-Anchor" href="#architecture-of-hdfs"></a> Architecture of HDFS</h3><p>一个文件被分成多个block，这些快存储在DataNOdes的集合中。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/cFpH7k.png" alt="" /></p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/NSDbPP.png" alt="" /></p><h4 id="masterslave-architecture-一个namenode-多个datanode"><a class="markdownIt-Anchor" href="#masterslave-architecture-一个namenode-多个datanode"></a> Master/Slave Architecture – 一个NameNode ， 多个DataNode</h4><p>一个NameNode</p><ol><li>维持整个文件系统命名空间<ol><li>所有对文件系统命令空间的改变都会被记录在NameNode中</li><li>应用可以指定备份的个数</li></ol></li><li>包括文件系统树和所有文件的元数据</li></ol><p>多个DataNode</p><ol><li>服务来自客户的读写请求</li><li>根据来自NameNode的指令，负责block的创建，删除，冗余</li></ol><h4 id="数据复制"><a class="markdownIt-Anchor" href="#数据复制"></a> 数据复制</h4><p>HDFS被设计成在一个跨机器的大型集群中存储大量数据</p><p>存储原理：将文件分成若干block，除了最后一个之外，所有的block都相同。</p><p><img src="https://mryanhehe-1300112970.cos.ap-chengdu.myqcloud.com/uPic/C8BLQ6.png" alt="" /></p><p>block的辅助由NameNode来管理。NameNode会定期从集群中的DataNode中接受心跳检测和块报告</p><p>![image-20210811121405224](/Users/yixuanyan/Library/Application Support/typora-user-images/image-20210811121405224.png)</p><p>如图，NameNode存储文件的元信息，物理文件放在Datanode。</p><h4 id="数据存放策略"><a class="markdownIt-Anchor" href="#数据存放策略"></a> 数据存放策略</h4><p>本地rack(包含多个datanode)存在一个备份，其他rock存放一个卑微，其他Rock的不同datanode存放一个备份。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#介绍&quot;&gt;&lt;/a&gt; 介绍&lt;/h1&gt;
-&lt;p&gt;hadoop 是一个开源的框架，用于在商业集群上存储和大规模处理数据集。&lt;/p&gt;
-&lt;p&gt;hadoop由许多组件构成&lt;/p&gt;
-&lt;p&gt;&lt;img sr</summary>
-      
-    
-    
-    
-    <category term="Hadoop" scheme="https://www.mryan.cool/categories/Hadoop/"/>
-    
-    
-    <category term="大数据" scheme="https://www.mryan.cool/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java项目中第三方库的使用、更新和风险的实证研究</title>
-    <link href="https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/"/>
-    <id>https://www.mryan.cool/2021/08/03/Java%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E6%9B%B4%E6%96%B0%E5%92%8C%E9%A3%8E%E9%99%A9%E7%9A%84%E5%AE%9E%E8%AF%81%E7%A0%94%E7%A9%B6/</id>
-    <published>2021-08-03T10:56:32.000Z</published>
-    <updated>2021-08-27T03:01:05.880Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>该文章是对  &quot;An Empirical Study of Usages, Updates and Risks of Third-party Libraries in Java Projects的翻译&quot;</strong></p><h1 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h1><p>第三方库是开发软件系统的核心部件。然而过期的第三方库仍在普遍使用，开发者通常不会意识到潜在危险。因此对第三方库的使用，更新进行定量和整体研究可以为持续改善生态稳定。本文基于java开源项目，提出了库使用分析和库更新分析。这两个技术从开源项目和第三方库的角度，针对定量分析使用和更新。同时，还提出了库风险分析，针对定量过期库的风险，同时响应开发者的风险。</p><p>为了验证我们研究的有用性，我们发布了一个bug驱动的警报系统来协助开发者在更新时做出可信的决策。</p><h1 id="1-intruduction"><a class="markdownIt-Anchor" href="#1-intruduction"></a> 1 intruduction</h1><p>虽然当前很多研究研究了第三方库的版本，类，接口，API，分析了更新和不更新的理由，最新第三方库的用法，类似npm和android，但是现有的研究很少对使用和更新做定量的分析，或者从全局的角度进行分析。因此，对于软件系统如何密集地使用和更新第三方库，以及跨软件系统如何密集地使用和更新第三方库，缺乏具体和全面的证据。这种评估隐藏了维护第三方库的问题，阻碍了实际的解决方案。</p><p>很多系统系统都是安全驱动，仅仅当bug出现才会通知开发者，从而让开发者忽略了潜在的危险。</p><p>为了这些情况，定量和全面的研究是很有必要的。本文主要回答了以下三个问题做了这样的描述：</p><ol><li>RQ1 库使用分析：什么是第三方库的使用强度和使用过期程度</li><li>RQ2 库更新分析：什么是第三方库的更新强度和更新延迟</li><li>RQ3 库风险分析：什么是第三方库的潜在风险，以及开发者对此的反应如何</li></ol><p>总的来说，本文主要有如下贡献</p><ol><li>提出了一个对java开源项目第三方库的使用，更新，风险的一个大规模的定量和全局的分析</li><li>向开发人员和研究人员提供了实际意义，发布了我们的数据集，以促进应用程序和改善生态系统，并提出了一个原型系统，以证明我们的发现的实用性。</li></ol><p>本来按照如下步骤介绍</p><ol><li>**sec2：**介绍了研究设计</li><li>**sec3，4，6：**分别了对库的使用，更新，风险进行分析</li><li>**sec6：**讨论了该研究的意义和应用以及相关威胁</li><li>**sec7：**回顾了相关工作</li><li>**sec8：**得出结论</li></ol><h1 id="2-研究方法论"><a class="markdownIt-Anchor" href="#2-研究方法论"></a> 2 研究方法论</h1><h2 id="研究设计"><a class="markdownIt-Anchor" href="#研究设计"></a> 研究设计</h2><p>**RQ1：**分析一个项目依赖库的程度和库被项目使用的程度，主要是针对定量分析一个库在项目开发的重要性和库不断发展对项目产生的影响。然后我们从项目和库的角度来测量使用的库版本和最新版本相差多远，主要是针对定量分析项目中过期库的共性并且引出RQ2.</p><p>**RQ2：**调查项目的历史库版本的更新。从项目的角度来看，测量库版本更新的强度，其次从三方库的角度来看，在跨项目之间库版本更新的强度，这旨在量化更新库版本的实践。然后，从项目和库的角度来测量库版本更新落后于库版本发布的时间，这旨在量化开发者对新版本发布的反应速度，从而引出RQ3</p><p>**RQ3：**调查流行库的严重bug。首先测量多少个严重的bug存在库版本发布中，这旨在量化使用过期库和延迟更新库的潜在危险。然后，探索开发者对项目中bug的反应，这旨在描述项目开发人员对有bug的库版本的反应，以及他们对过时库版本的警报系统的需求。</p><h1 id="3-库使用分析"><a class="markdownIt-Anchor" href="#3-库使用分析"></a> 3 库使用分析</h1><p>主要从pom.xml和build.gradle来提取maven和gradle项目。对于maven项目，主要提取<strong>groupId，artifactId，Version</strong>，对gradle项目，主要提取<strong>group，name，version</strong>。</p><p>一个库依赖d由四元组表示,&lt;p,f,com,v&gt;</p><ol><li>p，f：声明d的项目和配置文件<ol><li>p.date是p的仓库被爬取的日期</li></ol></li><li>com表示d的commit<ol><li>Com.date表示com被提交的日期</li></ol></li><li>v表示d版本，由&lt;l,ver&gt;表示<ol><li>l表示库，由&lt;group,name&gt;表示<ol><li>group表示l的组织，name表示l的名字</li></ol></li><li>ver表示l的版本号</li></ol></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;strong&gt;该文章是对  &amp;quot;An Empirical Study of Usages, Updates and Risks of Third-party Libraries in Java Projects的翻译&amp;quot;&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 </summary>
-      
-    
-    
-    
-    <category term="论文" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/"/>
-    
-    <category term="第三方库分析" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
-    
-    
-    <category term="第三方库分析" scheme="https://www.mryan.cool/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>交互式的、努力意识的库版本协调</title>
-    <link href="https://www.mryan.cool/2021/06/10/%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%9A%84%E3%80%81%E5%8A%AA%E5%8A%9B%E6%84%8F%E8%AF%86%E7%9A%84%E5%BA%93%E7%89%88%E6%9C%AC%E5%8D%8F%E8%B0%83/"/>
-    <id>https://www.mryan.cool/2021/06/10/%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%9A%84%E3%80%81%E5%8A%AA%E5%8A%9B%E6%84%8F%E8%AF%86%E7%9A%84%E5%BA%93%E7%89%88%E6%9C%AC%E5%8D%8F%E8%B0%83/</id>
-    <published>2021-06-10T08:48:04.000Z</published>
-    <updated>2021-06-17T04:31:33.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>前言</strong>：本文是对论文 Interactive, Effort-Aware Library Version Harmonization 的翻译和自己的笔记，。</p><h1 id="交互式工作感知库版本协调"><a class="markdownIt-Anchor" href="#交互式工作感知库版本协调"></a> 交互式工作感知库版本协调</h1><h2 id="摘要"><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2><p>由于软件大量依赖第三方库，灵活的依赖生命机制，以及在项目中不断增长的模块数量，同一三方库的多个版本直接项目的不同模块。这样的库版本不一致性可能会增加依赖维护成本，或者当模块相互依赖时造成冲突。尽管自动构建工具(Maven等)提供了检测第三方库版本不一致性问题的部分支持，但是他们不提供任何服务来协调库版本不一致的问题。</p><p>对100多名java人员的调查，提出了LIB HARMO，一种可交互，努力感知的库版本协调技术。</p><h2 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h2><p>该论文主要聚焦于maven，因为maven用的最多。</p><h3 id="1-问题多个模块使用同一三方库"><a class="markdownIt-Anchor" href="#1-问题多个模块使用同一三方库"></a> 1: 问题：多个模块使用同一三方库</h3><h4 id="解决思路需要工具来主动定位和协调不一致的库版本这些工具需要与人员进行交互并提供api级别的协调工作"><a class="markdownIt-Anchor" href="#解决思路需要工具来主动定位和协调不一致的库版本这些工具需要与人员进行交互并提供api级别的协调工作"></a> 解决思路：需要工具来主动定位和协调不一致的库版本，这些工具需要与人员进行交互，并提供API级别的协调工作。</h4><p>因此，我们提出了LIBHARMO。主要按三个步骤工作</p><ol><li>通过分析build配置文件(POM)来送给会识别库版本不一致。</li><li>对于每个库版本的不一致性，它建议使用协调工作最少的协调版本。</li><li>如果开发者决定去协调，会重命名POM，并且建议去更换删掉的库的API。</li></ol><h4 id="贡献"><a class="markdownIt-Anchor" href="#贡献"></a> 贡献：</h4><ol><li>我们对github的131名Java开发人员进行了第一次调查，以获取关于库版本不一致的实践和工具方面的第一手信息。</li><li>我们根据我们的调查点，提出了第一个交互式，努力意识的库版本协调技术LIBHARMO。</li><li>用LIBHARMO对443个高star的java maven项目进行评估，发现了621处库版本不一致。有5个已经被证实，1个被协调。</li></ol><h3 id="2开发者调查"><a class="markdownIt-Anchor" href="#2开发者调查"></a> 2:开发者调查</h3><h4 id="调查内容"><a class="markdownIt-Anchor" href="#调查内容"></a> 调查内容</h4><p><strong>根源</strong>：</p><pre><code>1. 对第三方库的不熟悉和三方库不向后兼容2. 没有意识到版本不一致的危害3. 不好的管理习惯，不熟悉maven</code></pre><p><strong>如何发现</strong>：</p><ol><li>版本冲突</li><li>API变更</li><li>对POM人工检查</li><li>maven的enforcer插件</li></ol><p><strong>不修复的理由</strong>：</p><ol><li>不向后兼容</li><li>巨大的API依赖</li><li>不同模块进度不一致</li><li>没有出现大bug</li></ol><p><strong>修复的理由</strong>：</p><ol><li>避免长时间运行巨大的维护成本</li><li>不会出现大的bug。</li></ol><p><strong>修复策略</strong>：</p><ol><li>使用比当前版本更新的版本（77.6%）</li><li>选择一个当前使用的版本（29%）</li></ol><p><strong>修复成本</strong>：</p><ol><li>数小时</li><li>数天</li><li>数分钟</li></ol><p>PS：查找版本不一致，确定协调版本，重构代码是最耗时的过程</p><p><strong>工具期望</strong>：</p><p>45.6%认为自动化协调工具有用，14%认为没用，因为他们已经适应了enforcer插件。</p><p>46.5%的人认为这取决于它在构建过程中的集成程度、自动化程度等。对于这种工具中最有用的功能，检测所有库版本的不一致（75.9%），并建议协调版本（71.4%）是最有用的，其次是报告详细的API级别修复工作（49.1%）和重构POM文件（42.0%）。令人惊讶的是，重构源代码（25.0%）比以前的所有特性都不那么被认为有用。</p><h4 id="调查结果"><a class="markdownIt-Anchor" href="#调查结果"></a> 调查结果</h4><ol><li>需要有工具来帮助开发人员主动定位和协调不一致的库版本，因为库版本不一致大多是手动检测的，或者是在严重后果后被动发现的。</li><li>开发者应该与工具交互去决定哪里协调和是否需要协调，因为库不一致可能跨模块或者模块之间进度不一致。</li><li>工具需要为开发人员提供API级的协调功能，因为API向后不兼容、API依赖强度和API行为一致性是开发人员决定是否协调的关键因素</li><li>为了方便使用，工具需要集成到构建过程中。</li></ol><h2 id="方法论"><a class="markdownIt-Anchor" href="#方法论"></a> 方法论</h2><p>它首先生成POM继承图，然后分析继承关系来解决每个POM中的库依赖关系，最后识别库版本不一致和错误一致。</p><h3 id="生成pom继承图"><a class="markdownIt-Anchor" href="#生成pom继承图"></a> 生成POM继承图</h3><p>maven提供了继承机制去从父POM继承元素（依赖），但是不能循环继承，因此我们可以根据POM图形成一个有向无环图。</p><h3 id="解析库依赖"><a class="markdownIt-Anchor" href="#解析库依赖"></a> 解析库依赖</h3><p>创建一个六元组(lib,ver,pro,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>l</mi><mi>i</mi><mi>b</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{lib}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>v</mi><mi>e</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{ver}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{pro}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>)。</p><ol><li>Lib:表示库，又groudid和atrifactid声明。</li><li>ver:表示lib的版本号</li><li>pro:表示lib的property</li><li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>l</mi><mi>i</mi><mi>b</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{lib}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>：指向声明了lib的POM</li><li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>v</mi><mi>e</mi><mi>r</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{ver}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>：指向声明了version的POM</li><li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>m</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m_{pro}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>：指向声明了property的POM</li></ol><h3 id="识别不一致性和错误一致性"><a class="markdownIt-Anchor" href="#识别不一致性和错误一致性"></a> 识别不一致性和错误一致性</h3>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;strong&gt;前言&lt;/strong&gt;：本文是对论文 Interactive, Effort-Aware Library Version Harmonization 的翻译和自己的笔记，。&lt;/p&gt;
-&lt;h1 id=&quot;交互式工作感知库版本协调&quot;&gt;&lt;a class=&quot;markdo</summary>
-      
-    
-    
-    
-    <category term="论文" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/"/>
-    
-    <category term="第三方库分析" scheme="https://www.mryan.cool/categories/%E8%AE%BA%E6%96%87/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
-    
-    
-    <category term="第三方库分析" scheme="https://www.mryan.cool/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
